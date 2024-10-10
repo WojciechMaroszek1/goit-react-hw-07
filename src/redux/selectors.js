@@ -1,16 +1,14 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 
-// Selector to get contacts from state
-const selectContacts = state => state.contacts.items;
+const selectContactsState = state => state.contacts;
+const selectFilterState = state => state.filters.status;
 
-// Selector to get filter from state
-const selectFilter = state => state.filters.filter;
-
-// Selector to filter contacts based on filter
-export const selectFilteredContacts = createSelector([selectContacts, selectFilter], (contacts, filter) => {
-	if (!filter) {
-		return contacts;
+// Memoized selector to filter contacts
+export const selectFilteredContacts = createSelector(
+	[selectContactsState, selectFilterState],
+	(contactsState, filter) => {
+		return filter
+			? contactsState.items.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+			: contactsState.items;
 	}
-	const normalizedFilter = filter.toLowerCase();
-	return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
-});
+);

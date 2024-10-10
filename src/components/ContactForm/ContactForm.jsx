@@ -1,10 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import css from './ContactForm.module.css';
 import * as Yup from 'yup';
-import { useEffect } from 'react';
 import uuid4 from 'uuid4';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact, clearErrors } from '../../redux/contactsSlice';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/operations';
 
 const userSchema = Yup.object().shape({
 	name: Yup.string()
@@ -21,32 +20,21 @@ const userSchema = Yup.object().shape({
 
 const ContactForm = () => {
 	const dispatch = useDispatch();
-	const error = useSelector(state => state.contacts.error);
 
-	const handleAddContact = (values, { resetForm, setFieldError }) => {
-		dispatch(
-			addContact({
-				id: uuid4(),
-				name: values.name,
-				number: values.number,
-			})
-		);
-
-		if (error) {
-			if (error.includes('name')) {
-				setFieldError('name', error);
-			}
-			if (error.includes('number')) {
-				setFieldError('number', error);
-			}
-		} else {
+	const handleAddContact = (values, { resetForm }) => {
+		try {
+			dispatch(
+				addContact({
+					id: uuid4(),
+					name: values.name,
+					number: values.number,
+				})
+			);
 			resetForm();
+		} catch (error) {
+			console.error('Error adding contact:', error);
 		}
 	};
-
-	useEffect(() => {
-		dispatch(clearErrors());
-	}, [dispatch]);
 
 	return (
 		<Formik initialValues={{ name: '', number: '' }} onSubmit={handleAddContact} validationSchema={userSchema}>
