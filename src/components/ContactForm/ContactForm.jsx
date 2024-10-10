@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import uuid4 from 'uuid4';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/operations';
+import { useId } from 'react';
 
 const userSchema = Yup.object().shape({
 	name: Yup.string()
@@ -20,6 +21,8 @@ const userSchema = Yup.object().shape({
 
 const ContactForm = () => {
 	const dispatch = useDispatch();
+	const nameId = useId();
+	const phoneId = useId();
 
 	const handleAddContact = (values, { resetForm }) => {
 		try {
@@ -40,13 +43,13 @@ const ContactForm = () => {
 		<Formik initialValues={{ name: '', number: '' }} onSubmit={handleAddContact} validationSchema={userSchema}>
 			<Form className={css.form}>
 				<div className={css.field_box}>
-					<label>Name</label>
-					<Field className={css.form_field} type="text" name="name"></Field>
+					<label htmlFor={nameId}>Name</label>
+					<Field className={css.form_field} type="text" name="name" id={nameId}></Field>
 					<ErrorMessage className={css.error} name="name" component="div" as="span" />
 				</div>
 				<div className={css.field_box}>
-					<label>Number</label>
-					<Field className={css.form_field} type="text" name="number"></Field>
+					<label htmlFor={phoneId}>Number</label>
+					<Field className={css.form_field} type="text" name="number" id={phoneId}></Field>
 					<ErrorMessage className={css.error} name="number" component="div" as="span" />
 				</div>
 				<button type="submit" className={css.button}>
