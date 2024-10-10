@@ -44,12 +44,18 @@ const ContactForm = () => {
 			<Form className={css.form}>
 				<div className={css.field_box}>
 					<label htmlFor={nameId}>Name</label>
-					<Field className={css.form_field} type="text" name="name" id={nameId}></Field>
+					<Field className={css.form_field} type="text" name="name" id={nameId} autoComplete="name"></Field>
 					<ErrorMessage className={css.error} name="name" component="div" as="span" />
 				</div>
 				<div className={css.field_box}>
 					<label htmlFor={phoneId}>Number</label>
-					<Field className={css.form_field} type="text" name="number" id={phoneId}></Field>
+					<Field
+						className={css.form_field}
+						type="text"
+						name="number"
+						id={phoneId}
+						autoComplete="phone"
+					></Field>
 					<ErrorMessage className={css.error} name="number" component="div" as="span" />
 				</div>
 				<button type="submit" className={css.button}>

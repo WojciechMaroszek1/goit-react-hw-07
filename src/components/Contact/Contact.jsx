@@ -33,7 +33,7 @@ const Contact = ({ data: { id, name, phone } }) => {
 Contact.propTypes = {
 	id: PropTypes.string,
 	name: PropTypes.string,
-	number: PropTypes.string,
+	phone: PropTypes.string,
 	data: PropTypes.object,
 };
 

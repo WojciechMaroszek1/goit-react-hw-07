@@ -7,7 +7,7 @@ const selectFilterState = state => state.filters.status;
 export const selectFilteredContacts = createSelector(
 	[selectContactsState, selectFilterState],
 	(contactsState, filter) => {
-		return filter
+		return filter && filter !== 'all'
 			? contactsState.items.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
 			: contactsState.items;
 	}
